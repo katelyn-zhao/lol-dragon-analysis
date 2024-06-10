@@ -79,7 +79,7 @@ The head of the cleaned dataframe is displayed below.
 
 ### Univariate Analysis
 
-Now, I want to explore the distributions of single variables.
+In the first part of my exploratory data analysis, I want to look at the distributions of single variables.
 
 First, I'm going to look at the distribution of the total number of dragons (both elemental and elder) that a team takes per game.
 
@@ -89,6 +89,8 @@ First, I'm going to look at the distribution of the total number of dragons (bot
   height="600"
   frameborder="0"
 ></iframe>
+
+Now, I'm going to look at the frequencies of the different types of elemental dragons.
 
 ### Bivariate Analysis
 
