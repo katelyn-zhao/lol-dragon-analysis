@@ -59,19 +59,36 @@ The columns that are relevant to the analysis are as follows:
 
 ### Data Cleaning
 
+The following outlines my data cleaning process:
+
+1. I kept only the columns needed for my analysis. Those specific columns and their descriptions are listed above.
+2. I filtered out any columns that didn't have complete data. I noticed that most of the columns with partial data didn't contain information about what kind of elemental dragons were taken throughout the game. Since this information is critical in my analysis of netural objectives, I decided to drop all rows that were incomplete.
+3. I grouped the data by `gameid` and `teamname` so that each row in the dataframe contains information about a single game. Since I wanted to analyse team objectives and not player statistics, this was the best way to store the data. 
+4. I created a new column called `soultype` which specifies the type of elemental dragon soul buff a team got. In League of Legends, a team can get a buff called the dragon soul when they take 4 elemental dragons. There are 6 types of elemental dragons, and therefore 6 types of elemental dragon souls. Each of these 6 souls provide different types of buffs. If a team was unable to get the buff, the value in the column is 'none'.
 
 The head of the cleaned dataframe is displayed below.
 
-| gameid           | teamname           | league   | side   |   result |   gamelength |   firstdragon |   dragons |   elementaldrakes |   infernals |   mountains |   clouds |   oceans |   chemtechs |   hextechs |   elders |
-|:-----------------|:-------------------|:---------|:-------|---------:|-------------:|--------------:|----------:|------------------:|------------:|------------:|---------:|---------:|------------:|-----------:|---------:|
-| 8401-8401_game_1 | Oh My God          | LPL      | Blue   |        1 |         1365 |             0 |         2 |                 0 |           0 |           0 |        0 |        0 |           0 |          0 |        0 |
-| 8401-8401_game_1 | ThunderTalk Gaming | LPL      | Red    |        0 |         1365 |             0 |         1 |                 0 |           0 |           0 |        0 |        0 |           0 |          0 |        0 |
-| 8401-8401_game_2 | Oh My God          | LPL      | Blue   |        1 |         1444 |             0 |         2 |                 0 |           0 |           0 |        0 |        0 |           0 |          0 |        0 |
-| 8401-8401_game_2 | ThunderTalk Gaming | LPL      | Red    |        0 |         1444 |             0 |         1 |                 0 |           0 |           0 |        0 |        0 |           0 |          0 |        0 |
-| 8402-8402_game_1 | FunPlus Phoenix    | LPL      | Blue   |        1 |         1893 |             0 |         4 |                 0 |           0 |           0 |        0 |        0 |           0 |          0 |        0 |
 
+| gameid                | teamname                      | league   | side   |   result |   gamelength |   firstdragon |   dragons |   elementaldrakes |   infernals |   mountains |   clouds |   oceans |   chemtechs |   hextechs |   elders | soultype   |
+|:----------------------|:------------------------------|:---------|:-------|---------:|-------------:|--------------:|----------:|------------------:|------------:|------------:|---------:|---------:|------------:|-----------:|---------:|:-----------|
+| ESPORTSTMNT01_2690210 | Fredit BRION Challengers      | LCKC     | Blue   |        0 |         1713 |             0 |         1 |                 1 |           0 |           0 |        0 |        0 |           0 |          1 |        0 | none       |
+| ESPORTSTMNT01_2690210 | Nongshim RedForce Challengers | LCKC     | Red    |        1 |         1713 |             1 |         3 |                 3 |           2 |           1 |        0 |        0 |           0 |          0 |        0 | none       |
+| ESPORTSTMNT01_2690219 | Liiv SANDBOX Challengers      | LCKC     | Red    |        1 |         2114 |             1 |         4 |                 4 |           0 |           2 |        1 |        0 |           0 |          1 |        0 | mountains  |
+| ESPORTSTMNT01_2690219 | T1 Challengers                | LCKC     | Blue   |        0 |         2114 |             0 |         1 |                 1 |           0 |           1 |        0 |        0 |           0 |          0 |        0 | none       |
+| ESPORTSTMNT01_2690227 | Gen.G Challengers             | LCKC     | Red    |        0 |         1972 |             0 |         1 |                 1 |           0 |           0 |        0 |        0 |           0 |          1 |        0 | none       |
 
 ### Univariate Analysis
+
+Now, I want to explore the distributions of single variables.
+
+First, I'm going to look at the distribution of the total number of dragons (both elemental and elder) that a team takes per game.
+
+<iframe
+  src="figs/total-dragons-dist.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
 
 ### Bivariate Analysis
 
@@ -89,8 +106,3 @@ The head of the cleaned dataframe is displayed below.
 
 
 ## Hypothesis Testing
-
-
-
-
-## 
