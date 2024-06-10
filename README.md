@@ -84,7 +84,7 @@ Now, I want to explore the distributions of single variables.
 First, I'm going to look at the distribution of the total number of dragons (both elemental and elder) that a team takes per game.
 
 <iframe
-  src="figs/total-dragons-dist.html"
+  src="figs/total-dragon-dist.html"
   width="800"
   height="600"
   frameborder="0"
