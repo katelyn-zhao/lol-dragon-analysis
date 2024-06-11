@@ -141,6 +141,105 @@ To look at some of the combined data for each of the 8 tier-one regions, I group
 
 ### Missingness Dependency
 
+In this part, I will be testing the missingness of the `firstdragon` column on other columns in the dataset. I believe that the missingness of the values in the column may be dependent on the `league` or `side` columns.
 
+First, I will look at the distribution of `league` when `firstdragon` is missing vs not missing.
+
+**Null Hypothesis:** the distribution of the `league` column when `firstdragon` is missing is the same as the distribution of the `league` column when `firstdragon` is not missing.
+
+**Alternate Hypothesis:** the distribution of the `league` column when `firstdragon` is missing is not the same as the distribution of the `league` column when `firstdragon` is not missing.
+
+The test statistic used was **Total Variation Distance (TVD)** and the significance level chosen was **0.05**.
+
+Below is the observed distribution of `league` when `firstdragon` is missing and not missing.
+
+| league     |   firstdragon_missing = False |   firstdragon_missing = True |
+|:-----------|------------------------------:|-----------------------------:|
+| CBLOL      |                    0.022995   |                   0          |
+| CBLOLA     |                    0.02044    |                   0          |
+| CDF        |                    0.00690797 |                   0          |
+| CT         |                    0.00246037 |                   0          |
+| DCup       |                    0          |                   0.0396913  |
+| DDH        |                    0.0197776  |                   0          |
+| EBL        |                    0.016986   |                   0          |
+| EL         |                    0.012775   |                   0          |
+| ESLOL      |                    0.0229004  |                   0          |
+| EUM        |                    0.0252661  |                   0          |
+| GL         |                    0.0160871  |                   0          |
+| GLL        |                    0.0191152  |                   0          |
+| HC         |                    0.0151408  |                   0          |
+| HM         |                    0.0144784  |                   0          |
+| IC         |                    0.00709723 |                   0          |
+| LAS        |                    0.021481   |                   0          |
+| LCK        |                    0.0441921  |                   0          |
+| LCKC       |                    0.0372841  |                   0          |
+| LCL        |                    0.00151408 |                   0          |
+| LCO        |                    0.0200615  |                   0          |
+| LCS        |                    0.0289567  |                   0          |
+| LCSA       |                    0.0511001  |                   0          |
+| LDL        |                    0          |                   0.519294   |
+| LEC        |                    0.022995   |                   0          |
+| LFL        |                    0.0233736  |                   0          |
+| LFL2       |                    0.0228058  |                   0          |
+| LHE        |                    0.022995   |                   0          |
+| LJL        |                    0.0202508  |                   0          |
+| LJLA       |                    0.00359593 |                   0          |
+| LLA        |                    0.0176958  |                   0          |
+| LMF        |                    0.0301869  |                   0          |
+| LPL        |                    0          |                   0.433297   |
+| LPLOL      |                    0.0194937  |                   0          |
+| LVP SL     |                    0.0231843  |                   0          |
+| MSI        |                    0.00757038 |                   0          |
+| NEXO       |                    0.0181216  |                   0          |
+| NLC        |                    0.0362432  |                   0          |
+| PCS        |                    0.0256447  |                   0          |
+| PGC        |                    0.0531819  |                   0          |
+| PGN        |                    0.0140998  |                   0          |
+| PRM        |                    0.0343033  |                   0          |
+| SL (LATAM) |                    0.0152354  |                   0          |
+| TAL        |                    0.0193991  |                   0          |
+| TCL        |                    0.0209132  |                   0          |
+| UL         |                    0.0230897  |                   0          |
+| UPL        |                    0.0389875  |                   0          |
+| VCS        |                    0.0305654  |                   0          |
+| VL         |                    0.0157085  |                   0          |
+| WLDs       |                    0.0133428  |                   0.00771775 |
+
+After the permutation test, I found that the observed test statistic was **0.9922822491730982** and the p-value obtained was **0**. Therefore, I reject the null hypothesis and conclude that `firstdragon` is MAR, conditional on `league`.
+
+Below is the empirical distribution of the test statistic.
+
+<iframe
+  src="figs/empirical-dist-league.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
+
+I will now look at the distribution of `side` when `firstdragon` is missing vs not missing.
+
+**Null Hypothesis:** the distribution of the `side` column when `firstdragon` is missing is the same as the distribution of the `side` column when `firstdragon` is not missing.
+
+**Alternate Hypothesis:** the distribution of the `side` column when `firstdragon` is missing is not the same as the distribution of the `side` column when `firstdragon` is not missing.
+
+The test statistic used was **Total Variation Distance (TVD)** and the significance level chosen was **0.05**.
+
+Below is the observed distribution of `side` when `firstdragon` is missing and not missing.
+
+| side   |   firstdragon_missing = False |   firstdragon_missing = True |
+|:-------|------------------------------:|-----------------------------:|
+| Blue   |                      0.498699 |                     0.498622 |
+| Red    |                      0.501301 |                     0.501378 |
+
+After the permutation test, I found that the observed test statistic was **0.00007701057594522442** and the p-value obtained was **0.984**. Therefore, I fail to reject the null hypothesis.
+
+Below is the empirical distribution of the test statistic.
+
+<iframe
+  src="figs/empirical-dist-side.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
 
 ## Hypothesis Testing
