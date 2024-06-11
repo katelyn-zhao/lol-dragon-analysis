@@ -89,7 +89,7 @@ First, I'm going to look at the distribution of the total number of dragons (bot
   height="600"
   frameborder="0"
 ></iframe>
-Now, I'm going to look at the frequencies of the different types of elemental dragons.
+Now, I'm going to look at the frequencies of the different types of elemental dragons. After some research, I found that the chemtech drake was disabled January 24th of 2022, which is why the frequency of this dragon is so low compared to others. It was later updated and reintroduced in November of 2023.
 
 <iframe
   src="figs/elemental-dragon-dist.html"
@@ -97,9 +97,12 @@ Now, I'm going to look at the frequencies of the different types of elemental dr
   height="600"
   frameborder="0"
 ></iframe>
-After some research, I found that the chemtech drake was disabled January 24th of 2022, which is why the frequency of this dragon is so low compared to others. It was later updated and reintroduced in November of 2023.
 
 ### Bivariate Analysis
+
+In this next part of my exploratory analysis, I want to look at the relationships between multiple variables.
+
+Below is a visual representation of the winrates of teams who took the first dragon and teams that did not take the first dragon. Based on the figure, it looks like teams that take the first dragon win more than teams that did not take the first dragon.
 
 <iframe
   src="figs/first-drake-winrate.html"
@@ -107,6 +110,7 @@ After some research, I found that the chemtech drake was disabled January 24th o
   height="600"
   frameborder="0"
 ></iframe>
+I also looked at the winrate of each of the different types of elemental dragon souls. It is commonly said that the Hextech Soul is the most powerful buff of the 6 souls, which is reflected in the plot. Is this difference significant? I will explore this idea later in my analysis.
 
 <iframe
   src="figs/soul-winrate.html"
@@ -115,15 +119,25 @@ After some research, I found that the chemtech drake was disabled January 24th o
   frameborder="0"
 ></iframe>
 
-
 ### Interesting Aggregates
 
+To look at some of the combined data for each of the 8 tier-one regions, I grouped by the `league` column and found the sum of the `result`, `dragons`, and `firstdragon` columns and the mean of the `gamelength` column. Note that the LPL (League of Legends Pro League), which is the professional league for League of Legends in China, is not included because most of their data was of partial completion, meaning it was dropped in the data cleaning stage. The LCK (League of Legends Champions Korea) has the highest numbers in all columns, which is unsurprising since they are often considered the strongest region.
 
-
+| league   |   result |   gamelength |   dragons |   firstdragon |
+|:---------|---------:|-------------:|----------:|--------------:|
+| LCK      |      467 |      2020.06 |      2253 |           467 |
+| LEC      |      201 |      2009.46 |       925 |           201 |
+| LCS      |      304 |      1981.43 |      1382 |           304 |
+| PCS      |      271 |      1858.03 |      1192 |           271 |
+| VCS      |      323 |      1800.96 |      1334 |           323 |
+| CBLOL    |      243 |      1974.09 |      1123 |           243 |
+| LLA      |      187 |      1989.54 |       844 |           187 |
 
 ## Assessment of Missingness
 
 ### NMAR Analysis
+
+
 
 ### Missingness Dependency
 
