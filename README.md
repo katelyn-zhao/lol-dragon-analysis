@@ -89,7 +89,6 @@ First, I'm going to look at the distribution of the total number of dragons (bot
   height="600"
   frameborder="0"
 ></iframe>
-
 Now, I'm going to look at the frequencies of the different types of elemental dragons.
 
 <iframe
@@ -98,10 +97,24 @@ Now, I'm going to look at the frequencies of the different types of elemental dr
   height="600"
   frameborder="0"
 ></iframe>
-
 After some research, I found that the chemtech drake was disabled January 24th of 2022, which is why the frequency of this dragon is so low compared to others. It was later updated and reintroduced in November of 2023.
 
 ### Bivariate Analysis
+
+<iframe
+  src="figs/first-drake-winrate.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
+
+<iframe
+  src="figs/soul-winrate.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
+
 
 ### Interesting Aggregates
 
