@@ -353,9 +353,6 @@ The new model's performance can be quantified with the following metrics:
 
 Compared to the baseline model, the new model performs better.
 
-<iframe
-  src="assets/confusion-matrix.html"
-  width="800"
-  height="600"
-  frameborder="0"
-></iframe>
+Below is a confusion matrix to visualize the model's performance.
+
+![Confusion Matrix](assets/confusion_matrix.png)
