@@ -355,4 +355,4 @@ Compared to the baseline model, the new model performs better.
 
 Below is a confusion matrix to visualize the model's performance.
 
-![Confusion Matrix](assets/confusion_matrix.png)
+![Confusion Matrix](assets/confusion-matrix.png)
