@@ -246,7 +246,7 @@ Below is the empirical distribution of the test statistics.
   frameborder="0"
 ></iframe>
 
-After the permutation test, I found that the observed test statistic was **0.00007701057594522442** and the p-value obtained was **0.984**. Therefore, I fail to reject the null hypothesis. However, we cannot conclude that this column is MCAR, only that it is not MAR, conditional on `side`.
+After the permutation test, I found that the observed test statistic was **0.00007701057594522442** and the p-value obtained was **0.978**. Therefore, I fail to reject the null hypothesis. However, we cannot conclude that this column is MCAR, only that it is not MAR, conditional on `side`.
 
 
 ## Hypothesis Testing
@@ -274,15 +274,15 @@ Below is the empricial distribution of the test statistics.
   frameborder="0"
 ></iframe>
 
-After doing the permutation test, I found that the observed test statistic was **0.027651920357060655** and the p-value that I obtained was **0.0147**. Since the p-value is less than the chosen significance level, we reject the null hypothesis.
+After doing the permutation test, I found that the observed test statistic was **0.034431828298115086** and the p-value that I obtained was **0.0035**. Since the p-value is less than the chosen significance level, we reject the null hypothesis.
 
 ## Framing a Prediction Problem
 
-So far, I've only been focused on dragons, a type a neutral objective in Leauge of Legends. Now, I want to deepen my analysis by expanding the reach to look at all neutral objectives including Elemental Dragons, Elder Dragons, Barons, and Rift Heralds. Note that jungle monsters are also neutral objectives, but since they are mainly taken by the jungler and less as a team, I will focus my analysis on neutral team objectives. More specifically, I will be looking at whether or not a model can predict the result of a game based on neutral objective statistics.
+So far, I've only been focused on dragons, a type a neutral objective in Leauge of Legends. Now, I want to deepen my analysis by expanding the reach to look at all neutral objectives including Elemental Dragons, Elder Dragons, Barons, and Rift Heralds. Note that jungle monsters are also neutral objectives, but since they are mainly taken by the jungler and less as a team, I will focus my analysis on team neutral objectives. More specifically, I will be looking at whether or not a model can predict the result of a game based on neutral objective statistics.
 
 For this prediction problem, I will be using binary classification, specifically the Random Forest Classifier, to predict the outcome of the game. To evaluate the model, I will be using **accuracy** and **F1-score** because the precision and recall of the model are equally important.
 
-This model may be useful for post-game analysis, as well as live probabilites of a certain team winning that analysts and commentators can use while games are happening live.
+This model may be useful for post-game analysis, as well as for calculating live probabilites of a certain team winning that analysts and commentators can use while games are happening live.
 
 To do this prediction, I've added three more columns to the original dataset: `heralds`, `barons`, and `visionscore`.
 
@@ -305,7 +305,7 @@ The head of the new dataset is shown below:
 
 ## Baseline Model
 
-Before we include all neutral objectives, let's first go back to primary focus of this analysis and the question this project is focused on: Dragons and how they effect game outcome.
+Before we include all neutral objectives, let's first go back to the primary focus of this analysis and the question this project is focused on: dragons and how they effect game outcome.
 
 For this model, I used a Random Forest Classifier with the following features:
 
@@ -317,11 +317,11 @@ For this model, I used a Random Forest Classifier with the following features:
 
 After fitting the model, its performance can be quantified with the following metrics:
 
-- Accuracy on Training Data: **0.7732130135359772**
-- Accuracy on Testing Data: **0.7735042735042735**
+- Accuracy on Training Data: **0.7730942768938495**
+- Accuracy on Testing Data: **0.7739791073124407**
 
-- F1-score on Training Data: **0.7858504316627425**
-- F1-score on Testing Data: **0.7920662598081953**
+- F1-score on Training Data: **0.7868377021751255**
+- F1-score on Testing Data: **0.7882562277580072**
 
 The model performs relatively well on both the training and testing sets, showing no signs of overfitting.
 
@@ -331,27 +331,27 @@ Now, I will include the data from other neutral objectives to predict its effect
 
 The features I have added are described below:
 
-- `side`: The side of the map in which the team's Nexus resides. In League of Legends, the side a team is on can effect the ease at which the team can take neutral objectives. The Blue side has easier access to the Dragon Pit, while the Red side has easier access to the Baron Pit. These differences are one of the reasons why I chose to include this feature. The values themselves are nominal categorical and were encoded using OneHotEncoder.
+- `side`: The side of the map in which the team's Nexus resides. In League of Legends, the side a team is on can effect the ease at which the team can take neutral objectives. The Blue side has easier access to the Dragon Pit, while the Red side has easier access to the Baron Pit. These differences are one of the reasons why I chose to include this feature. The values themselves are nominal categorical and were encoded using **OneHotEncoder**.
 
-- `heralds`: Another neutral objective available towards the beginning of the game. The values are quantitative and were transformed using StandardScaler. 
+- `heralds`: Another neutral objective available towards the beginning of the game. The values are quantitative and were transformed using **StandardScaler**. 
 
-- `barons`: Anther neutral objective available towards the middle to end of the game. The values are quantitative and were transformed using StandardScaler. 
+- `barons`: Anther neutral objective available towards the middle to end of the game. The values are quantitative and were transformed using **StandardScaler**. 
 
-- `visionscore`: A way to quantify a team's contribution to vision control during a match. It is made up of 3 main components: ward placing, ward clearing, and vision denial. Vision is crucial in a League of Legends game, as it provides information that directly influence strategy and gameplay. In the case of neutral objectives, maintaining vision around Dragons, Barons, and Rift Heralds ensure a team can secure or contest these objectives safely and efficiently, which is why I chose to include this feature. The values are quantitative and were transformed using StandardScaler before model fitting.
+- `visionscore`: A way to quantify a team's contribution to vision control during a match. It is made up of 3 main components: ward placing, ward clearing, and vision denial. Vision is crucial in a League of Legends game, as it provides information that directly influence strategy and gameplay. In the case of neutral objectives, maintaining vision around Dragons, Barons, and Rift Heralds ensure a team can secure or contest these objectives safely and efficiently, which is why I chose to include this feature. The values are quantitative and were transformed using **StandardScaler** before model fitting.
 
 I used GridSearchCV to find the best hyperparameters for the RandomTreeClassifier. The best hyperparameters were:
-- criterion: entropy
-- max_depth: 12
+- criterion: gini
+- max_depth: 10
 - min_samples_split: 10
-- n_estimators: 200
+- n_estimators: 100
 
 The new model's performance can be quantified with the following metrics:
 
-- Accuracy on Training Data: **0.8980645927333175**
-- Accuracy on Testing Data: **0.8817663817663818**
+- Accuracy on Training Data: **0.8977677511279981**
+- Accuracy on Testing Data: **0.872269705603039**
 
-- F1-score on Training Data: **0.9015299666398251**
-- F1-score on Testing Data: **0.8833723653395784**
+- F1-score on Training Data: **0.9008293020041463**
+- F1-score on Testing Data: **0.8765488756310233**
 
 Compared to the baseline model, the new model performs better.
 
@@ -382,5 +382,5 @@ Below is the empricial distribution of the test statistics.
   frameborder="0"
 ></iframe>
 
-After doing the permutation test, I found that the observed test statistic was **0.010822702881169155** and the p-value that I obtained was **0.028**. Since the p-value is less than the chosen significance level, we reject the null hypothesis. This means that the model may be more accuarate for teams who got the soul vs. teams who did not get the soul.
+After doing the permutation test, I found that the observed test statistic was **0.006046718374977278** and the p-value that I obtained was **0.152**. Since the p-value is greater than the chosen significance level, we fail to reject the null hypothesis. This means that the model predicts teams from both groups with statistically similar accuracy levels. Therefore, the model appears to be fair, showing no significant bias towards one group over the other based on whether or not they got the dragon soul.
 
