@@ -4,7 +4,7 @@ Author: Katelyn Zhao
 
 ## Overview
 
-A comprehensive data science project completed for DSC80 at UCSD. The project encompasses all components of statistical analysis, starting with exploratory data analysis, followed by hypothesis testing and prediction models. The primary focus of this project is to analyse the relationships between in game neutral objectives (specifically Dragons) and game outcome. 
+A comprehensive data science project completed for DSC80 at UCSD. The project encompasses all components of statistical analysis, starting with exploratory data analysis, followed by hypothesis testing and prediction models. The primary focus of this project is to analyze the relationships between in game neutral objectives (specifically Dragons) and game outcome. 
 
 ## Introduction
 
@@ -16,7 +16,7 @@ In League of Legends, two teams of five players each compete to destroy the oppo
 
 ### Data
 
-In this project, I will focus mainly on neutral objectives (specifically Dragons) and how they effect game outcome. To do this, I will use data collected from Oracle's Elixir. I will use the game data specifically from the year 2022, containing 148992 rows and 131 columns. 
+In this project, I will focus mainly on team neutral objectives (specifically Dragons) and how they effect game outcome. To do this, I will use data collected from [Oracle's Elixir](https://oracleselixir.com/tools/downloads). I will use the game data specifically from the year 2022, containing 148992 rows and 131 columns. 
 
 ### Columns
 
@@ -40,19 +40,19 @@ The columns that are relevant to the analysis are as follows:
 
 - `elementaldrakes`: the total number of elemental dragons a team takes throughout the game
 
-- `infernals`: the total number of infernal dragons a team takes
+- `infernals`: the total number of infernal dragons a team takes; infernal souls provide damage buffs
 
-- `mountains`: the total number of mountain dragons a team takes
+- `mountains`: the total number of mountain dragons a team takes; mountain souls provide resistance buffs
 
-- `clouds`: the total number of cloud dragons a team takes
+- `clouds`: the total number of cloud dragons a team takes; cloud souls provide movement speed buffs
 
-- `oceans`: the total number of ocean dragons a team takes
+- `oceans`: the total number of ocean dragons a team takes; ocean souls provide healing buffs
 
-- `chemtechs` : the total number of chemtech dragons a team takes
+- `chemtechs` : the total number of chemtech dragons a team takes; chemtech souls provide tenacity and shielding buffs
 
-- `hextechs`: the total number of hextech dragons a team takes
+- `hextechs`: the total number of hextech dragons a team takes; hextech souls provide attack speed buffs
 
-- `elders`: the total number of elder dragons a team takes
+- `elders`: the total number of elder dragons a team takes; elder dragons provide a lot of stats and is the most powerful buff in the game
 
 
 ## Data Cleaning and Exploratory Analysis
@@ -63,8 +63,8 @@ The following outlines my data cleaning process:
 
 1. I kept only the columns needed for my analysis. Those specific columns and their descriptions are listed above.
 2. I filtered out any columns that didn't have complete data. I noticed that most of the columns with partial data didn't contain information about what kind of elemental dragons were taken throughout the game. Since this information is critical in my analysis of netural objectives, I decided to drop all rows that were incomplete.
-3. I grouped the data by `gameid` and `teamname` so that each row in the dataframe contains information about a single game. Since I wanted to analyse team objectives and not player statistics, this was the best way to store the data. 
-4. I created a new column called `soultype` which specifies the type of elemental dragon soul buff a team got. In League of Legends, a team can get a buff called the dragon soul when they take 4 elemental dragons. There are 6 types of elemental dragons, and therefore 6 types of elemental dragon souls. Each of these 6 souls provide different types of buffs. If a team was unable to get the buff, the value in the column is 'none'.
+3. I grouped the data by `gameid` and `teamname` so that each row in the dataframe contains information about a single game. Since I wanted to analyze team objectives and not individual player statistics, this was the best way to store the data. 
+4. I created a new column called `soultype` which specifies the type of elemental dragon soul buff a team got. In League of Legends, a team can get a buff called the dragon soul when they take 4 elemental dragons. There are 6 types of elemental dragons, and therefore 6 types of elemental dragon souls. Each of these 6 souls provide different types of buffs (described above). Each of these buffs have certain levels of power (not all of them are the same in terms of how beneficial they are for a team). If a team was unable to get the buff, the value in the column is 'none'.
 
 The head of the cleaned dataframe is displayed below.
 
@@ -90,7 +90,7 @@ First, I'm going to look at the distribution of the total number of dragons (bot
   frameborder="0"
 ></iframe>
 
-Now, I'm going to look at the frequencies of the different types of elemental dragons. After some research, I found that the chemtech drake was disabled January 24th of 2022, which is why the frequency of this dragon is so low compared to others. It was later updated and reintroduced in November of 2023.
+Now, I'm going to look at the frequencies of the different types of elemental dragons.
 
 <iframe
   src="assets/elemental-dragon-dist.html"
@@ -98,6 +98,8 @@ Now, I'm going to look at the frequencies of the different types of elemental dr
   height="600"
   frameborder="0"
 ></iframe>
+
+After some research, I found that the chemtech drake was disabled January 24th of 2022, which is why the frequency of this dragon is so low compared to others. It was later updated and reintroduced in November of 2023.
 
 ### Bivariate Analysis
 
@@ -139,7 +141,7 @@ To look at some of the combined data for each of the 8 tier-one regions, I group
 
 ### NMAR Analysis
 
-
+Columns in my dataset that could be considered NMAR are the columns for specific types of elemental dragons taken like `infernals`, `mountains`, `clouds`, etc. If some regions do not report this specific data, there would be missing values.
 
 ### Missingness Dependency
 
