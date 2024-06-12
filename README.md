@@ -4,7 +4,7 @@ Author: Katelyn Zhao
 
 ## Overview
 
-A comprehensive data science project completed for DSC80 at UCSD. The project encompasses all components of statistical analysis, starting with exploratory data analysis, followed by hypothesis testing and prediction models. The primary focus of this project is to analyse the relationships between in game neutral objectives and game outcome. 
+A comprehensive data science project completed for DSC80 at UCSD. The project encompasses all components of statistical analysis, starting with exploratory data analysis, followed by hypothesis testing and prediction models. The primary focus of this project is to analyse the relationships between in game neutral objectives (specifically Dragons) and game outcome. 
 
 ## Introduction
 
@@ -16,7 +16,7 @@ In League of Legends, two teams of five players each compete to destroy the oppo
 
 ### Data
 
-In this project, I will focus mainly on neutral objectives and how they effect game outcome. To do this, I will use data collected from Oracle's Elixir. I will use the game data specifically from the year 2022, containing 148992 rows and 131 columns. 
+In this project, I will focus mainly on neutral objectives (specifically Dragons) and how they effect game outcome. To do this, I will use data collected from Oracle's Elixir. I will use the game data specifically from the year 2022, containing 148992 rows and 131 columns. 
 
 ### Columns
 
@@ -84,7 +84,7 @@ In the first part of my exploratory data analysis, I want to look at the distrib
 First, I'm going to look at the distribution of the total number of dragons (both elemental and elder) that a team takes per game.
 
 <iframe
-  src="figs/total-dragon-dist.html"
+  src="assets/total-dragon-dist.html"
   width="800"
   height="600"
   frameborder="0"
@@ -93,7 +93,7 @@ First, I'm going to look at the distribution of the total number of dragons (bot
 Now, I'm going to look at the frequencies of the different types of elemental dragons. After some research, I found that the chemtech drake was disabled January 24th of 2022, which is why the frequency of this dragon is so low compared to others. It was later updated and reintroduced in November of 2023.
 
 <iframe
-  src="figs/elemental-dragon-dist.html"
+  src="assets/elemental-dragon-dist.html"
   width="800"
   height="600"
   frameborder="0"
@@ -106,7 +106,7 @@ In this next part of my exploratory analysis, I want to look at the relationship
 Below is a visual representation of the winrates of teams who took the first dragon and teams that did not take the first dragon. Based on the figure, it looks like teams that take the first dragon win more than teams that did not take the first dragon.
 
 <iframe
-  src="figs/first-drake-winrate.html"
+  src="assets/first-drake-winrate.html"
   width="800"
   height="600"
   frameborder="0"
@@ -115,7 +115,7 @@ Below is a visual representation of the winrates of teams who took the first dra
 I also looked at the winrate of each of the different types of elemental dragon souls. It is commonly said that the Hextech Soul is the most powerful buff of the 6 souls, which is reflected in the plot. Is this difference significant? I will explore this idea later in my analysis.
 
 <iframe
-  src="figs/soul-winrate.html"
+  src="assets/soul-winrate.html"
   width="800"
   height="600"
   frameborder="0"
@@ -210,7 +210,7 @@ Below is the observed distribution of `league` when `firstdragon` is missing and
 Below is the empirical distribution of the test statistics.
 
 <iframe
-  src="figs/empirical-dist-league.html"
+  src="assets/empirical-dist-league.html"
   width="800"
   height="600"
   frameborder="0"
@@ -238,7 +238,7 @@ Below is the observed distribution of `side` when `firstdragon` is missing and n
 Below is the empirical distribution of the test statistics.
 
 <iframe
-  src="figs/empirical-dist-side.html"
+  src="assets/empirical-dist-side.html"
   width="800"
   height="600"
   frameborder="0"
@@ -251,7 +251,9 @@ After the permutation test, I found that the observed test statistic was **0.000
 
 We saw from the graphs above that hextech souls seem to have the highest winrate of all the different elemental souls. Is this difference significant? Or is it just by chance?
 
-Is the winrate for teams that get hextech soul significantly higher than the winrate for teams that get the other types of souls?
+In other words, is the winrate for teams that get hextech soul significantly higher than the winrate for teams that get the other types of souls?
+
+To answer this question, a hypothesis test was conducted and the results are shown below.
 
 Null Hypothesis: In the population, the results of hextech souls and other elemental souls have the same distribution, and the observed differences in the samples are due to random chance.
 
@@ -264,7 +266,7 @@ Significance Level: 0.05
 Below is the empricial distribution of the test statistics.
 
 <iframe
-  src="figs/empirical-dist-permutation.html"
+  src="assets/empirical-dist-permutation.html"
   width="800"
   height="600"
   frameborder="0"
@@ -276,7 +278,9 @@ After doing the permutation test, I found that the observed test statistic was *
 
 So far, I've only been focused on dragons, a type a neutral objective in Leauge of Legends. Now, I want to deepen my analysis by expanding the reach to look at all neutral objectives including Elemental Dragons, Elder Dragons, Barons, and Rift Heralds. Note that jungle monsters are also neutral objectives, but since they are mainly taken by the jungler and less as a team, I will focus my analysis on neutral team objectives. More specifically, I will be looking at whether or not a model can predict the result of a game based on neutral objective statistics.
 
-For this prediction problem, I will be using binary classification, specifically Logistic Regression, to predict the outcome of the game. To evaluate the model, I will be using **accuracy** since False Positives and False Negatives are equally bad in this situation.
+For this prediction problem, I will be using binary classification, specifically the Random Forest Classifier, to predict the outcome of the game. To evaluate the model, I will be using **accuracy** and **F1-score** because the precision and recall of the model are equally important.
+
+This model may be useful for post-game analysis, as well as live probabilites of a certain team winning that analysts and commentators can use while games are happening live.
 
 To do this prediction, I've added three more columns to the original dataset: `heralds`, `barons`, and `visionscore`.
 
@@ -286,5 +290,72 @@ To do this prediction, I've added three more columns to the original dataset: `h
 
 - `visionscore`: the sum of the visionscores of all 5 players in a team in a single game.
 
+The head of the new dataset is shown below:
+
+|   result | side   |   firstdragon |   dragons |   heralds |   barons | soultype   |   visionscore |
+|---------:|:-------|--------------:|----------:|----------:|---------:|:-----------|--------------:|
+|        0 | Blue   |             0 |         1 |         2 |        0 | none       |           197 |
+|        1 | Red    |             1 |         3 |         0 |        0 | none       |           205 |
+|        1 | Red    |             1 |         4 |         1 |        2 | mountains  |           346 |
+|        0 | Blue   |             0 |         1 |         1 |        0 | none       |           277 |
+|        0 | Red    |             0 |         1 |         1 |        0 | none       |           239 |
 
 
+## Baseline Model
+
+Before we include all neutral objectives, let's first go back to primary focus of this analysis and the question this project is focused on: Dragons and how they effect game outcome.
+
+For this model, I used a Random Forest Classifier with the following features:
+
+- `firstdragon`: This is a nominal categorical variable that is already binary, so no further transformations needed to be made.
+
+- `dragons`: This is a quantitative variable that was standardized using **StandardScaler** before fitting the model.
+
+- `soultype`: This is a nomial categorical variable that was transformed using **OneHotEncoder** before fitting the model.
+
+After fitting the model, its performance can be quantified with the following metrics:
+
+- Accuracy on Training Data: **0.7732130135359772**
+- Accuracy on Testing Data: **0.7735042735042735**
+
+- F1-score on Training Data: **0.7858504316627425**
+- F1-score on Testing Data: **0.7920662598081953**
+
+The model performs relatively well on both the training and testing sets, showing no signs of overfitting.
+
+## Final Model
+
+Now, I will include the data from other neutral objectives to predict its effect on game outcome.
+
+The features I have added are described below:
+
+- `side`: The side of the map in which the team's Nexus resides. In League of Legends, the side a team is on can effect the ease at which the team can take neutral objectives. The Blue side has easier access to the Dragon Pit, while the Red side has easier access to the Baron Pit. These differences are one of the reasons why I chose to include this feature. The values themselves are nominal categorical and were encoded using OneHotEncoder.
+
+- `heralds`: Another neutral objective available towards the beginning of the game. The values are quantitative and were transformed using StandardScaler. 
+
+- `barons`: Anther neutral objective available towards the middle to end of the game. The values are quantitative and were transformed using StandardScaler. 
+
+- `visionscore`: A way to quantify a team's contribution to vision control during a match. It is made up of 3 main components: ward placing, ward clearing, and vision denial. Vision is crucial in a League of Legends game, as it provides information that directly influence strategy and gameplay. In the case of neutral objectives, maintaining vision around Dragons, Barons, and Rift Heralds ensure a team can secure or contest these objectives safely and efficiently, which is why I chose to include this feature. The values are quantitative and were transformed using StandardScaler before model fitting.
+
+I used GridSearchCV to find the best hyperparameters for the RandomTreeClassifier. The best hyperparameters were:
+- criterion: entropy
+- max_depth: 12
+- min_samples_split: 10
+- n_estimators: 200
+
+The new model's performance can be quantified with the following metrics:
+
+- Accuracy on Training Data: **0.8980645927333175**
+- Accuracy on Testing Data: **0.8817663817663818**
+
+- F1-score on Training Data: **0.9015299666398251**
+- F1-score on Testing Data: **0.8833723653395784**
+
+Compared to the baseline model, the new model performs better.
+
+<iframe
+  src="assets/confusion-matrix.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
