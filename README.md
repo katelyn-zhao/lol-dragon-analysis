@@ -4,7 +4,7 @@ Author: Katelyn Zhao
 
 ## Overview
 
-A comprehensive data science project completed for DSC80 at UCSD. The project encompasses all components of statistical analysis, starting with exploratory data analysis, followed by hypothesis testing and prediction models. The primary focus of this project is to analyse the relationships between in game neutral objectives (specifically Elemental Dragons) and game outcome. 
+A comprehensive data science project completed for DSC80 at UCSD. The project encompasses all components of statistical analysis, starting with exploratory data analysis, followed by hypothesis testing and prediction models. The primary focus of this project is to analyse the relationships between in game neutral objectives and game outcome. 
 
 ## Introduction
 
@@ -16,7 +16,7 @@ In League of Legends, two teams of five players each compete to destroy the oppo
 
 ### Data
 
-In this project, I will focus mainly on neutral objectives (specifically Elemental Dragons) and how they effect game outcome. To do this, I will use data collected from Oracle's Elixir. I will use the game data specifically from the year 2022, containing 148992 rows and 131 columns. 
+In this project, I will focus mainly on neutral objectives and how they effect game outcome. To do this, I will use data collected from Oracle's Elixir. I will use the game data specifically from the year 2022, containing 148992 rows and 131 columns. 
 
 ### Columns
 
@@ -89,6 +89,7 @@ First, I'm going to look at the distribution of the total number of dragons (bot
   height="600"
   frameborder="0"
 ></iframe>
+
 Now, I'm going to look at the frequencies of the different types of elemental dragons. After some research, I found that the chemtech drake was disabled January 24th of 2022, which is why the frequency of this dragon is so low compared to others. It was later updated and reintroduced in November of 2023.
 
 <iframe
@@ -110,6 +111,7 @@ Below is a visual representation of the winrates of teams who took the first dra
   height="600"
   frameborder="0"
 ></iframe>
+
 I also looked at the winrate of each of the different types of elemental dragon souls. It is commonly said that the Hextech Soul is the most powerful buff of the 6 souls, which is reflected in the plot. Is this difference significant? I will explore this idea later in my analysis.
 
 <iframe
@@ -205,9 +207,7 @@ Below is the observed distribution of `league` when `firstdragon` is missing and
 | VL         |                    0.0157085  |                   0          |
 | WLDs       |                    0.0133428  |                   0.00771775 |
 
-After the permutation test, I found that the observed test statistic was **0.9922822491730982** and the p-value obtained was **0**. Therefore, I reject the null hypothesis and conclude that `firstdragon` is MAR, conditional on `league`.
-
-Below is the empirical distribution of the test statistic.
+Below is the empirical distribution of the test statistics.
 
 <iframe
   src="figs/empirical-dist-league.html"
@@ -215,6 +215,10 @@ Below is the empirical distribution of the test statistic.
   height="600"
   frameborder="0"
 ></iframe>
+
+After the permutation test, I found that the observed test statistic was **0.9922822491730982** and the p-value obtained was **0**. Therefore, I reject the null hypothesis and conclude that `firstdragon` is MAR, conditional on `league`.
+
+
 
 I will now look at the distribution of `side` when `firstdragon` is missing vs not missing.
 
@@ -231,9 +235,7 @@ Below is the observed distribution of `side` when `firstdragon` is missing and n
 | Blue   |                      0.498699 |                     0.498622 |
 | Red    |                      0.501301 |                     0.501378 |
 
-After the permutation test, I found that the observed test statistic was **0.00007701057594522442** and the p-value obtained was **0.984**. Therefore, I fail to reject the null hypothesis.
-
-Below is the empirical distribution of the test statistic.
+Below is the empirical distribution of the test statistics.
 
 <iframe
   src="figs/empirical-dist-side.html"
@@ -242,4 +244,47 @@ Below is the empirical distribution of the test statistic.
   frameborder="0"
 ></iframe>
 
+After the permutation test, I found that the observed test statistic was **0.00007701057594522442** and the p-value obtained was **0.984**. Therefore, I fail to reject the null hypothesis. However, we cannot conclude that this column is MCAR, only that it is not MAR, conditional on `side`.
+
+
 ## Hypothesis Testing
+
+We saw from the graphs above that hextech souls seem to have the highest winrate of all the different elemental souls. Is this difference significant? Or is it just by chance?
+
+Is the winrate for teams that get hextech soul significantly higher than the winrate for teams that get the other types of souls?
+
+Null Hypothesis: In the population, the results of hextech souls and other elemental souls have the same distribution, and the observed differences in the samples are due to random chance.
+
+Alternative Hypothesis: In the population, hextech souls have higher winrates than other elemental souls, on average. The observed difference in the samples cannot be explained by random chance alone.
+
+Test-Statistic: Difference in group means (mean # of wins of hextech souls - mean # wins of other elemental souls)
+
+Significance Level: 0.05
+
+Below is the empricial distribution of the test statistics.
+
+<iframe
+  src="figs/empirical-dist-permutation.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
+
+After doing the permutation test, I found that the observed test statistic was **0.027651920357060655** and the p-value that I obtained was **0.0147**. Since the p-value is less than the chosen significance level, we reject the null hypothesis.
+
+## Framing a Prediction Problem
+
+So far, I've only been focused on dragons, a type a neutral objective in Leauge of Legends. Now, I want to deepen my analysis by expanding the reach to look at all neutral objectives including Elemental Dragons, Elder Dragons, Barons, and Rift Heralds. Note that jungle monsters are also neutral objectives, but since they are mainly taken by the jungler and less as a team, I will focus my analysis on neutral team objectives. More specifically, I will be looking at whether or not a model can predict the result of a game based on neutral objective statistics.
+
+For this prediction problem, I will be using binary classification, specifically Logistic Regression, to predict the outcome of the game. To evaluate the model, I will be using **accuracy** since False Positives and False Negatives are equally bad in this situation.
+
+To do this prediction, I've added three more columns to the original dataset: `heralds`, `barons`, and `visionscore`.
+
+- `heralds`: the number of heralds taken by a team in a single game
+
+- `barons`: the number of barons taken by a team in a single game
+
+- `visionscore`: the sum of the visionscores of all 5 players in a team in a single game.
+
+
+
