@@ -274,7 +274,7 @@ Below is the empricial distribution of the test statistics.
   frameborder="0"
 ></iframe>
 
-After doing the permutation test, I found that the observed test statistic was **0.034431828298115086** and the p-value that I obtained was **0.0035**. Since the p-value is less than the chosen significance level, we reject the null hypothesis.
+After doing the permutation test, I found that the observed test statistic was **0.034431828298115086** and the p-value that I obtained was **0.0035**. Since the p-value is less than the chosen significance level, we reject the null hypothesis. This means that the observed differences in the winrates cannot be explained by random chance alone.
 
 ## Framing a Prediction Problem
 
@@ -340,6 +340,7 @@ The features I have added are described below:
 - `visionscore`: A way to quantify a team's contribution to vision control during a match. It is made up of 3 main components: ward placing, ward clearing, and vision denial. Vision is crucial in a League of Legends game, as it provides information that directly influence strategy and gameplay. In the case of neutral objectives, maintaining vision around Dragons, Barons, and Rift Heralds ensure a team can secure or contest these objectives safely and efficiently, which is why I chose to include this feature. The values are quantitative and were transformed using **StandardScaler** before model fitting.
 
 I used GridSearchCV to find the best hyperparameters for the RandomTreeClassifier. The best hyperparameters were:
+
 - criterion: gini
 - max_depth: 10
 - min_samples_split: 10
