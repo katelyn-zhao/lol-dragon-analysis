@@ -356,3 +356,29 @@ Compared to the baseline model, the new model performs better.
 Below is a confusion matrix to visualize the model's performance.
 
 ![Confusion Matrix](assets/confusion-matrix.png)
+
+## Fairness Analysis
+
+I want to see if the model performs worse for teams who got the dragon soul than it does for teams who did not get the dragon soul.
+
+Null Hypothesis: The model is fair. Its accuracy for teams with the dragon soul and teams without the dragon soul are roughly the same, and any differences are due to random chance.
+
+Alternative Hypothesis: The model is unfair. Its accuracy for teams with dragon soul is higher than its precision for teams without dragon soul.
+
+Evaluation Metric: **Accuracy**
+
+Test Statistic: Difference between accuracy of predictions on teams with soul and accuracy of predictions on teams without soul.
+
+Significance Level: **0.05**
+
+Below is the empricial distribution of the test statistics.
+
+<iframe
+  src="assets/empirical-dist-fairness.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
+
+After doing the permutation test, I found that the observed test statistic was **0.010822702881169155** and the p-value that I obtained was **0.028**. Since the p-value is less than the chosen significance level, we reject the null hypothesis. This means that the model may be more accuarate for teams who got the soul vs. teams who did not get the soul.
+
